@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abdts.dao.exam.ExamDao">
+
+    <sql id="exam">
+        public_exam_id, public_exam_name, public_exam_subject, public_exam_gradeid, public_exam_schoolid,public_exam_datetime
+    </sql>
+
+    <select id="getExams" resultMap="getExam" parameterType="DataKeyPair">
+        SELECT public_grade.public_grade_name,
+        public_subject.public_subject_name,
+        <include refid="exam"/>
+        FROM
+        public_exam ,
+        public_grade ,
+        public_subject
+        WHERE
+        public_exam.public_exam_gradeid = public_grade.public_grade_id AND
+        public_exam.public_exam_subject = public_subject.public_subject_id
+
+    </select>
+    <resultMap id="getExam" type="ExamVO">
+        <result column="public_grade_name" property="public_grade_name"/>
+        <result column="public_subject_name" property="public_subject_name"/>
+    </resultMap>
+
+    <insert id="addExam" parameterType="DataKeyPair">
+        INSERT INTO public_exam(public_exam_name, public_exam_subject, public_exam_gradeid, public_exam_schoolid, public_exam_datetime)
+        VALUES (#{public_exam_name},#{public_exam_subject},#{public_exam_gradeid},#{public_exam_schoolid},#{public_exam_datetime})
+    </insert>
+    <update id="updExam"></update>
+    <delete id="delExam"></delete>
+
+    <select id="getExamCount" resultType="integer" parameterType="DataKeyPair">
+        SELECT count(1)
+        FROM public_exam;
+    </select>
+
+</mapper>

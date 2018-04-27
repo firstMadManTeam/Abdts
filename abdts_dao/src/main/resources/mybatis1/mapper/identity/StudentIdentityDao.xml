@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abdts.dao.identity.StudentIdentityDao">
+    <sql id="student_identity">
+        student_identity_id,student_identity_text
+    </sql>
+
+    <select id="getStuIdentity" resultType="com.abdts.entity.identity.StudentIdentity">
+        SELECT
+        <include refid="student_identity"/>
+        FROM public_student_identity
+    </select>
+</mapper>

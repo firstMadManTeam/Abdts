@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abdts.dao.student.StudentClassDao">
+    <sql id="classId">
+        class_id,class_text
+    </sql>
+
+    <select id="getStudentClass" resultType="StudentClass">
+        SELECT
+        <include refid="classId"/>
+        from class_1001
+    </select>
+</mapper>

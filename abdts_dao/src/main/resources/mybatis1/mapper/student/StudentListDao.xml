@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abdts.dao.student.StudentListDao">
+    <!--删除-->
+    <delete id="delStuList" parameterType="dataKeyPair">
+        DELETE FROM studentlist_1001
+        <where>
+            student_id = #{student_id}
+        </where>
+    </delete>
+    <!--添加-->
+    <insert id="addStuList" parameterType="dataKeyPair">
+        INSERT INTO studentlist_1001
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="student_name != null">student_name,</if>
+            <if test="student_sex != null and student_sex > 0">student_sex,</if>
+            <if test="student_age != null and student_age > 0"> student_age, </if>
+            <if test="student_identity != null and student_identity > 0">student_identity,</if>
+            <if test="student_gradeid != null and student_gradeid > 0">student_gradeid,</if>
+            <if test="student_classid != null and student_classid > 0 ">student_classid,</if>
+            <if test="student_birthday != null">student_birthday,</if>
+            <if test="student_modifytime != null"> student_modifytime, </if>
+            <if test="student_modifyteacher != null">student_modifyteacher,</if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="student_name != null">#{student_name},</if>
+            <if test="student_sex != null and student_sex > 0">#{student_sex},</if>
+            <if test="student_age != null and student_age > 0"> #{student_age}, </if>
+            <if test="student_identity != null and student_identity > 0">#{student_identity},</if>
+            <if test="student_gradeid != null and student_gradeid > 0">#{student_gradeid},</if>
+            <if test="student_classid != null and student_classid > 0">#{student_classid},</if>
+            <if test="student_birthday != null">#{student_birthday},</if>
+            <if test="student_modifytime != null"> #{student_modifytime}, </if>
+            <if test="student_modifyteacher != null">#{student_modifyteacher},</if>
+        </trim>
+    </insert>
+    <!--修改-->
+    <update id="updStuList" parameterType="dataKeyPair">
+        UPDATE studentlist_1001
+        <trim prefix="set" suffix="where student_id = #{student_id}" suffixOverrides=",">
+            <if test="student_name != null">student_name = #{student_name},</if>
+            <if test="student_sex != null and student_sex > 0">student_sex = #{student_sex},</if>
+            <if test="student_age != null and student_age > 0">student_age = #{student_age},</if>
+            <if test="student_state != null and student_state > 0">student_state = #{student_state},</if>
+            <if test="student_identity != null and student_identity > 0">student_identity = #{student_identity},</if>
+            <if test="student_gradeid != null and student_gradeid > 0">student_gradeid = #{student_gradeid},</if>
+            <if test="student_classid != null and student_classid > 0">student_classid = #{student_classid},</if>
+            <if test="student_birthday != null">student_birthday = #{student_birthday},</if>
+            <if test="student_modifytime != null">student_modifytime = #{student_modifytime},</if>
+            <if test="student_modifyteacher != null">student_modifyteacher = #{student_modifyteacher},</if>
+        </trim>
+    </update>
+</mapper>
+        

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abdts.dao.teacher.RoleDao">
+
+    <select id="get" resultType="RoleDO">
+        select
+        `role_id`,
+        `role_name`,
+        `role_sign`,
+        `remark`,
+        `createtime`
+        from  public_role where role_id = #{role_id}
+    </select>
+
+    <select id="list" resultType="RoleDO">
+        select
+        `role_id`,
+        `role_name`,
+        `role_sign`,
+        `remark`,
+        `createtime`
+        from  public_role
+        <where>
+            <if test="roleId != null and roleId != ''"> and role_id = #{roleId},</if>
+            <if test="roleName != null and roleName != ''"> and role_name = #{roleName},</if>
+            <if test="roleSign != null and roleSign != ''"> and role_sign = #{roleSign},</if>
+            <if test="remark != null and remark != ''"> and remark = #{remark},</if>
+            <if test="createtime != null"> and createtime = #{createtime},</if>
+        </where>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(role_id) from  public_role
+        <where>
+            <if test="roleId != null and roleId != ''"> and role_id = #{roleId},</if>
+            <if test="roleName != null and roleName != ''"> and role_name = #{roleName},</if>
+            <if test="roleSign != null and roleSign != ''"> and role_sign = #{roleSign},</if>
+            <if test="remark != null and remark != ''"> and remark = #{remark},</if>
+            <if test="createtime != null"> and createtime = #{createtime},</if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="RoleDO"
+            useGeneratedKeys="true" keyProperty="roleId">
+        insert into  public_role
+        (
+        `role_name`,
+        `role_sign`,
+        `remark`,
+        `createtime`
+        )
+        values
+        (
+        #{roleName},
+        #{roleSign},
+        #{remark},
+        #{createtime}
+        )
+    </insert>
+
+    <update id="update" parameterType="RoleDO">
+        update  public_role
+        <set>
+            <if test="roleName != null and roleName != ''"> and role_name = #{roleName},</if>
+            <if test="roleSign != null and roleSign != ''"> and role_sign = #{roleSign},</if>
+            <if test="remark != null and remark != ''"> and remark = #{remark},</if>
+            <if test="createtime != null"> and createtime = #{createtime},</if>
+        </set>
+        where role_id = #{roleId}
+    </update>
+
+    <delete id="remove">
+        delete from  public_role where role_id = #{value}
+    </delete>
+
+    <delete id="batchRemove">
+        delete from  public_role where role_id in
+        <foreach item="roleId" collection="array" open="(" separator=","
+                 close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+
+</mapper>

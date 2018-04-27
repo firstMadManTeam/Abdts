@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abdts.dao.homework.HomeWorkDao">
+    <sql id="homeWork">
+       public_homework_id,public_homework_datetime, public_homework_teacherid, public_homework_content, public_homework_subjectid, public_homework_title
+    </sql>
+    <select id="getHomeWorks" resultMap="getHomeVO" parameterType="dataKeyPair">
+        SELECT s.public_subject_name,
+        t.public_teacherlist_name,
+        <include refid="homeWork"/>
+        FROM
+        public_homework h,public_subject s,public_teacherlist t
+        <where>
+            h.public_homework_subjectid = s.public_subject_id
+            and t.public_teacherlist_id = h.public_homework_teacherid
+            <if test="public_homework_id != null and public_homework_id != ''">
+                and public_homework_id = #{public_homework_id}
+            </if>
+            <if test="public_homework_subjectid != null and public_homework_subjectid != ''  and public_homework_subjectid > 0">
+                AND public_homework_subjectid = #{public_homework_subjectid}
+            </if>
+            <if test="public_homework_teacherid != null and public_homework_teacherid != ''">
+                and public_homework_teacherid = #{public_homework_teacherid}
+            </if>
+            <if test="public_homework_datetime != null and public_homework_datetime != ''">
+                AND public_homework_datetime like "%"#{public_homework_datetime}"%"
+            </if>
+        </where>
+    </select>
+    <resultMap id="getHomeVO" type="HomeWorkVO">
+        <result column="public_subject_name" property="public_subject_name"/>
+        <result property="public_teacherlist_name" column="public_teacherlist_name"/>
+    </resultMap>
+
+    <insert id="addHomeWork" parameterType="dataKeyPair">
+            INSERT INTO public_homework(public_homework_datetime, public_homework_teacherid, public_homework_content, public_homework_subjectid, public_homework_title)
+            VALUES (#{public_homework_datetime},#{public_homework_teacherid},#{public_homework_content},#{public_homework_subjectid},#{public_homework_title})
+    </insert>
+
+    <update id="updHomeWork">
+
+    </update>
+
+</mapper>

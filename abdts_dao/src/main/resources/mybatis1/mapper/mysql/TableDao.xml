@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abdts.dao.mysql.TableDao">
+    <update id="createTable" parameterType="DataKeyPair">
+            CREATE TABLE ${tableName} (
+  `student_id` BIGINT(11) DEFAULT NULL,
+  `student_totalscores` double DEFAULT NULL,
+  `student_classranking` int(11) DEFAULT NULL,
+  `student_chinese_scores` double DEFAULT NULL,
+  `student_math_scores`  double DEFAULT NULL,
+  `student_english_scores` double DEFAULT NULL,
+  `student_physics_scores`  double DEFAULT NULL,
+  `student_chemistry_scores`  double DEFAULT NULL,
+  `student_biology_scores`  double DEFAULT NULL,
+  `student_politics_scores` double DEFAULT NULL,
+  `student_history_scores`  double DEFAULT NULL,
+  `student_geography_scores`  double DEFAULT NULL,
+  `student_update_datetime` datetime(0) DEFAULT NULL
+)  ENGINE=InnoDB DEFAULT CHARSET=utf8
+    </update>
+
+    <insert id="addTableInfo" parameterType="java.util.List">
+        insert into
+        <foreach collection="list" item="item" index="index" separator=",">
+            <if test="index == 0">
+                ${item.tableName}
+            </if>
+        </foreach>
+        (student_id, student_totalscores
+        , student_classranking, student_chinese_scores
+        , student_math_scores, student_english_scores, student_physics_scores
+        , student_chemistry_scores, student_biology_scores, student_politics_scores
+        , student_history_scores, student_geography_scores) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.student_id},#{item.student_totalscores},#{item.student_classranking}
+            ,#{item.student_chinese_scores},#{item.student_math_scores}
+            ,#{item.student_english_scores},#{item.student_physics_scores}
+            ,#{item.student_chemistry_scores},#{item.student_biology_scores},#{item.student_politics_scores}
+            ,#{item.student_history_scores},#{item.student_geography_scores})
+        </foreach>
+    </insert>
+</mapper>

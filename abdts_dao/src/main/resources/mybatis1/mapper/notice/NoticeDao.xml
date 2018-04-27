@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abdts.dao.notice.NoticeDao">
+
+    <sql id="notices">
+        public_notice_id,public_notice_title,public_notice_content,public_notice_publisher,public_notice_datetime,public_notice_ip
+    </sql>
+
+    <select id="getNotices" resultMap="getNots" parameterType="DataKeyPair">
+        SELECT
+        t.public_teacherlist_name,d.teacher_identity_text,
+        <include refid="notices"/>
+        FROM public_notice n,public_teacherlist t,public_teacher_identity d
+        <where>
+            n.public_notice_publisher = t.public_teacherlist_id
+            AND d.teacher_identity_id = t.public_teacherlist_identity
+            <if test="title != null and title != ''">
+                AND public_notice_title LIKE "%"#{title}"%"
+            </if>
+            <if test="noticeId != null and noticeId != ''">
+                AND public_notice_id = #{noticeId}
+            </if>
+        </where>
+    </select>
+
+    <select id="pageNotice" resultType="integer" parameterType="DataKeyPair">
+        SELECT
+        COUNT(1)
+        FROM public_notice n,public_teacherlist t,public_teacher_identity d
+        <where>
+            n.public_notice_publisher = t.public_teacherlist_id
+            AND d.teacher_identity_id = t.public_teacherlist_identity
+            <if test="title != null and title != ''">
+                AND public_notice_title LIKE "%"#{title}"%"
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="getNots" type="NoticeVO">
+        <id property="public_teacherlist_id" column="public_teacherlist_id"/>
+        <result column="teacher_identity_text" property="teacher_identity_text"/>
+        <result column="public_teacherlist_name" property="public_teacherlist_name"/>
+    </resultMap>
+
+    <select id="getNoticesCount" resultType="integer">
+        SELECT COUNT(1) FROM public_notice
+    </select>
+
+</mapper>

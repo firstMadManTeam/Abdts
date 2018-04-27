@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.abdts.dao.sign.SignDao">
+
+    <sql id="signList">
+        public_sign_id,public_sign_parentid,public_sign_title,public_sign_content,public_sign_datetime,
+        public_sign_teacherid,public_sign_teachreply,public_sign_isreply
+    </sql>
+
+    <select id="getSignlist" parameterType="DataKeyPair" resultMap="getSingVO">
+        SELECT p.public_teacherlist_name,
+        <include refid="signList"/>
+        FROM
+        public_sign,public_teacherlist p
+        <where>
+            public_sign_parentid = p.public_teacherlist_id
+            <if test="title != null and title != ''">
+                AND public_sign_title LIKE "%"#{title}"%"
+            </if>
+            <if test="sign_id != null and sign_id != ''">
+                AND public_sign_id = #{sign_id}
+            </if>
+        </where>
+    </select>
+    <resultMap id="getSingVO" type="SignVO">
+        <result column="public_teacherlist_name" property="public_teacherlist_name"/>
+    </resultMap>
+
+    <select id="pageSign" parameterType="DataKeyPair" resultType="integer">
+        SELECT COUNT(1)
+        FROM
+        public_sign,public_parents p
+        <where>
+            public_sign_parentid = p.public_parents_id
+            <if test="title != null and title != ''">
+                AND public_sign_title LIKE "%"#{title}"%"
+            </if>
+        </where>
+    </select>
+
+    <insert id="insSign" parameterType="DataKeyPair">
+      INSERT INTO `abdts_mainsys`.`sign_1001` (
+	`sign_teacher`,
+	`sign_user`,
+	`sign_title`,
+	`sign_context`,
+	`sign_method`,
+	`sign_type`
+      )
+     VALUES
+	(
+		NULL,
+		NULL,
+		NULL,
+		NULL,
+		NULL,
+		NULL,
+		NULL
+	);
+    </insert>
+
+    <update id="updSign" parameterType="DataKeyPair">
+        UPDATE public_sign
+        <trim prefix="set" suffix="where public_sign_id = #{sign_id}" suffixOverrides=",">
+            <if test="public_sign_teachreply != null">public_sign_teachreply = #{public_sign_teachreply},</if>
+        </trim>
+    </update>
+
+    <select id="getSignsCount" resultType="integer">
+        SELECT COUNT(1) FROM public_sign;
+    </select>
+
+</mapper>

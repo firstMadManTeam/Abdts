@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abdts.dao.score.ScoreDao">
+    <select id="getScores" resultMap="getScore" parameterType="DataKeyPair">
+        SELECT e.student_totalscores,
+        s.student_classid,
+        s.student_name
+        FROM ${tableName} e,studentlist_1001 s
+        where e.student_id = s.student_id
+        ORDER BY e.student_totalscores desc
+        LIMIT 0,5
+    </select>
+    <resultMap id="getScore" type="ScoreVo">
+        <result column="student_classid" property="student_classid"/>
+        <result property="student_name" column="student_name"/>
+    </resultMap>
+
+    <select id="getScoreSum" resultType="integer">
+        SELECT SUM(e.student_totalscores)
+        FROM ${tableName} e,studentlist_1001 s
+        where e.student_id = s.student_id
+    </select>
+
+    <select id="getScoreCount" resultType="integer">
+        SELECT  count(1)
+        FROM ${tableName} e,studentlist_1001 s
+        where e.student_id = s.student_id
+    </select>
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abdts.dao.subject.SubjectDao">
+
+    <sql id="subject">
+        public_subject_id,public_subject_name
+    </sql>
+
+    <select id="getSubjectList" resultType="Subject" parameterType="dataKeyPair">
+        SELECT
+        <include refid="subject"/>
+        FROM public_subject
+        <where>
+            <if test="public_subject_id != null and public_subject_id != ''">
+                public_subject_id =#{public_subject_id}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addSubject" parameterType="dataKeyPair"></insert>
+
+    <delete id="removeSubject" parameterType="dataKeyPair">
+        DELETE FROM public_subject
+        WHERE public_subject_id = #{public_subject_id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,21 @@
+
+spring:
+  datasource:
+    password: pzy741
+    username: root
+    url: jdbc:mysql://inmeyu.com:3306/abdts_mainsys?useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.jdbc.Driver
+    platform: mysql
+  jmx:
+    default-domain: auth
+mybatis:
+  mapper-locations:
+      - mapper/*.xml
+  type-aliases-package:
+      com.abdts
+  configuration:
+    map-underscore-to-camel-case: true
+  config-location:
+      - mybatis-config.xml
+server:
+  port: 8070
